@@ -50,9 +50,9 @@ const TasksColumn: FC<props> = ({ status, tasks, users }) => {
             )}
             {filtredTasks.map((task, index) => (
                 <Task
-                    tester={getUserById(users, task.testerId)}
-                    client={getUserById(users, task.clientId)}
-                    performer={getUserById(users, task.performerId)}
+                    // tester={getUserById(users, task.testerId)}
+                    // client={getUserById(users, task.clientId)}
+                    // performer={getUserById(users, task.performerId)}
                     task={task}
                     key={index}
                 />
