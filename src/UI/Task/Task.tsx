@@ -1,20 +1,20 @@
-import { FC, useState } from "react";
+import { FC } from "react";
 import styles from "./Task.module.sass";
-import { TTask, TUser } from "../../interfaces/interfaces";
-import { useSelector } from "react-redux";
-import { RootState } from "../../store/store";
+import { TTask } from "../../interfaces/interfaces";
+// import { useSelector } from "react-redux";
+// import { RootState } from "../../store/store";
 import { AiFillCalendar } from "react-icons/ai";
 
 type TaskProps = {
     task: TTask;
-    tester: TUser;
-    performer: TUser;
-    client: TUser;
+    // tester: TUser;
+    // performer: TUser;
+    // client: TUser;
 };
 
-const Task: FC<TaskProps> = ({ task, tester, performer, client }) => {
-    const user = useSelector((state: RootState) => state.user);
-    const [isEditable, setIsEditable] = useState<boolean>(false);
+const Task: FC<TaskProps> = ({ task }) => {
+    // const user = useSelector((state: RootState) => state.user);
+    // const [isEditable, setIsEditable] = useState<boolean>(false);
 
     // if (user.id === client.userId && user.role === "owner") {
     // setIsEditable(true);
