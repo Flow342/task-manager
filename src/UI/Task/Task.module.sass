@@ -1,0 +1,33 @@
+.task
+    background: #27272A
+    margin-top: 10px
+    border-radius: 10px
+    padding: 10px 20px
+
+    &_id
+        color: grey
+        padding: 5px 0
+
+    &_description
+        font-size: 18px
+        text-wrap: wrap
+
+        &::first-letter
+            text-transform: uppercase
+
+    &_wrappers
+        display: flex
+
+        &_folder, &_deadline
+            margin-top: 10px
+            margin-right: 10px
+            padding: 5px 10px 
+            background: #18181B
+            width: fit-content
+            border: 1px dashed #3b3b3b
+            border-radius: 5px
+        
+        &_deadline
+            display: flex
+            justify-content: center
+            align-items: center

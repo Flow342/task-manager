@@ -1,0 +1,50 @@
+.wrapper
+    padding: 10px
+    border-bottom: 1px solid #464646
+    display: flex
+    font-size: 20px
+    justify-content: space-between
+
+.left_side
+    font-size: 30px
+    display: flex
+    width: fit-content
+    align-items: center
+
+    h1
+        text-transform: capitalize
+        margin-left: 5px
+        font-size: 30px
+
+.right_side
+    display: flex
+    align-items: center
+
+    .search
+        display: flex
+        align-items: center
+
+        &_icon
+            margin-right: -25px
+            z-index: 10
+
+        input
+            border: 1px solid #464646
+            background-color: #181818
+            font-size: 20px
+            border-radius: 5px
+
+    .user
+        position: relative
+        display: flex
+        font-size: 30px
+        align-items: center
+        cursor: pointer
+
+        &_icon
+            border: 1px solid white
+            border-radius: 50%
+            margin-left: 10px
+            min-width: 30px
+        &_name
+            font-weight: 600

@@ -1,0 +1,24 @@
+.modal
+    position: fixed
+    top: 0
+    bottom: 0
+    right: 0
+    left: 0
+    display: none
+    visibility: hidden
+    background: rgba(0, 0, 0, 0.5)
+    z-index: 9999
+
+.modal_content
+    background: #222
+    padding: 25px
+    border-radius: 16px
+    min-width: 250px
+    cursor: default
+
+.modal.active
+    backdrop-filter: blur(5px)
+    visibility: visible
+    display: flex
+    justify-content: center
+    align-items: center

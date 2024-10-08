@@ -1,0 +1,39 @@
+.column
+    padding: 10px
+    width: 350px
+    
+    &_header
+        display: flex
+        justify-content: space-between
+        align-items: center
+        border-bottom: 1px solid white
+        padding: 0 5px
+
+        &_status
+            font-size: 20px
+            font-weight: normal
+
+            &::first-letter
+                text-transform: uppercase
+
+        &_options
+            display: flex
+
+            &_new, &_other
+                cursor: pointer
+                display: flex
+                justify-content: center
+                align-items: center
+                border-radius: 10px
+                font-size: 20px
+                width: 2rem 
+                margin: 0 5px
+                aspect-ratio: 1/1
+                transition: background 0.5s
+
+                &:hover
+                    background: #202020
+
+.no_tasks
+    margin: 10px
+    font-size: 17px

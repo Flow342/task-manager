@@ -1,0 +1,33 @@
+.side_bar
+    background: #18181B
+    display: flex
+    width: 200px
+    flex-shrink: 0
+    flex-direction: column
+    padding: 10px
+    border-right: 1px solid #464646
+    transition: width 0.7s ease-in-out
+    overflow: hidden
+    max-height: 100vh
+
+.user
+    font-weight: 600
+    font-size: 25px
+    display: flex
+
+    &_body
+        margin-right: 5px
+    &_logo
+        border: 1px solid #f4f4f4
+        border-radius: 50%
+
+.icon
+    min-width: 30px
+    font-size: 30px
+    cursor: pointer
+    display: flex
+    justify-content: center
+    align-items: center
+
+.side_bar_active
+    width: 50px
