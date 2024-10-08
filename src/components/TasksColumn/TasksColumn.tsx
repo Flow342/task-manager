@@ -2,7 +2,7 @@ import { FC, useState } from "react";
 import styles from "./TasksColumn.module.sass";
 import { TTask, TUser } from "../../interfaces/interfaces";
 import Task from "../../UI/Task/Task";
-import { getUserById } from "../../utils/getUserById";
+// import { getUserById } from "../../utils/getUserById";
 import CreateTaskForm from "../CreateTaskForm/CreateTaskForm";
 import Modal from "../../UI/Modal/Modal";
 
