@@ -2,7 +2,6 @@ import { FC, useState } from "react";
 import styles from "./TasksColumn.module.sass";
 import { TTask, TUser } from "../../interfaces/interfaces";
 import Task from "../../UI/Task/Task";
-// import { getUserById } from "../../utils/getUserById";
 import CreateTaskForm from "../CreateTaskForm/CreateTaskForm";
 import Modal from "../../UI/Modal/Modal";
 
@@ -49,13 +48,7 @@ const TasksColumn: FC<props> = ({ status, tasks, users }) => {
                 <div className={styles.no_tasks}>No tasks yet</div>
             )}
             {filtredTasks.map((task, index) => (
-                <Task
-                    // tester={getUserById(users, task.testerId)}
-                    // client={getUserById(users, task.clientId)}
-                    // performer={getUserById(users, task.performerId)}
-                    task={task}
-                    key={index}
-                />
+                <Task task={task} key={index} />
             ))}
         </div>
     );

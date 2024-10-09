@@ -4,6 +4,7 @@ import { TTask } from "../../interfaces/interfaces";
 // import { useSelector } from "react-redux";
 // import { RootState } from "../../store/store";
 import { AiFillCalendar } from "react-icons/ai";
+import { useNavigate } from "react-router-dom";
 
 type TaskProps = {
     task: TTask;
@@ -20,9 +21,14 @@ const Task: FC<TaskProps> = ({ task }) => {
     // setIsEditable(true);
     // }
 
+    const navigate = useNavigate();
+
     return (
-        <div className={styles.task}>
-            <div className={styles.task_id}>#{task.id}13</div>
+        <div
+            onClick={() => navigate("/tasks/" + task.id)}
+            className={styles.task}
+        >
+            <div className={styles.task_id}>#{task.id}</div>
             <div className={styles.task_description}>{task.description}</div>
             <div className={styles.task_wrappers}>
                 <div className={styles.task_wrappers_folder}>{task.folder}</div>

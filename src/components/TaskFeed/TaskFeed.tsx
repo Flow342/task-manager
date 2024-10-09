@@ -21,19 +21,6 @@ const TaskFeed: FC = () => {
 
     const statuses = ["Todo", "In Progress", "In Review", "Done"];
 
-    onSnapshot(
-        collection(db, "projects", user.userProjectId as string, "tasks"),
-        (docs) => {
-            const taskArr: DocumentData[] = [];
-
-            docs.forEach((task) => {
-                taskArr.push(task.data());
-            });
-
-            setTasks([...(taskArr as TTask[])]);
-        }
-    );
-
     const getUsers = async () => {
         const projUsers = await getDocs(
             collection(db, "projects", user.userProjectId as string, "users")
@@ -50,10 +37,30 @@ const TaskFeed: FC = () => {
     useEffect(() => {
         try {
             getUsers();
+            onSnapshot(
+                collection(
+                    db,
+                    "projects",
+                    user.userProjectId as string,
+                    "tasks"
+                ),
+                (docs) => {
+                    if (!docs.empty) {
+                        const taskArr: DocumentData[] = [];
+
+                        docs.forEach((task) => {
+                            taskArr.push({ ...task.data(), id: task.id });
+                        });
+
+                        setTasks([...(taskArr as TTask[])]);
+                        if (docs.size == taskArr.length) {
+                            setLoading(false);
+                        }
+                    }
+                }
+            );
         } catch (err) {
             console.log(err);
-        } finally {
-            setLoading(false);
         }
     }, [user]);
 

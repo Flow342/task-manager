@@ -1,16 +1,22 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import styles from "./TopBar.module.sass";
 import { AiFillProject, AiOutlineUser, AiOutlineSearch } from "react-icons/ai";
 import { RootState } from "../../store/store";
 import { useEffect, useState } from "react";
 import { doc, getDoc } from "firebase/firestore";
-import { db } from "../../firebase";
+import { auth, db } from "../../firebase";
 import DropDown from "../../UI/DropDown/DropDown";
+import { signOut } from "firebase/auth";
+import { removeUser } from "../../store/reducers/userSlice";
+import Loader from "../../UI/Loader/Loader";
+import { useNavigate } from "react-router-dom";
 
 const TopBar = () => {
     const user = useSelector((state: RootState) => state.user);
     const [title, setTitle] = useState<string>("");
     const [userDropDown, setUserDropDown] = useState<boolean>(false);
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const getTitle = async () => {
         try {
@@ -29,11 +35,26 @@ const TopBar = () => {
         getTitle();
     }, []);
 
+    const userSignOut = async () => {
+        try {
+            await signOut(auth);
+            dispatch(removeUser());
+        } catch (err) {
+            console.log(err, "sign out error");
+        }
+    };
+
     return (
         <div className={styles.wrapper}>
             <div className={styles.left_side}>
-                <AiFillProject />
-                <h1>/{title}</h1>
+                {user.userProjectId && (
+                    <div className={styles.project_title}>
+                        <AiFillProject />
+                        <div onClick={() => navigate("/feed")}>
+                            /{title ? title : <Loader />}
+                        </div>
+                    </div>
+                )}
             </div>
             <div className={styles.right_side}>
                 <div className={styles.search}>
@@ -44,14 +65,22 @@ const TopBar = () => {
                     <input type="text" placeholder="      search tasks..." />
                 </div>
                 <div className={styles.user}>
-                    <div className={styles.user_name}>{user.name}</div>
+                    <div
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            setUserDropDown(!userDropDown);
+                        }}
+                        className={styles.user_name}
+                    >
+                        {user.name}
+                        <DropDown
+                            setVisible={setUserDropDown}
+                            visible={userDropDown}
+                            side="bottom"
+                            body={<div onClick={userSignOut}>Log-out</div>}
+                        />
+                    </div>
                     <AiOutlineUser className={styles.user_icon} />
-                    <DropDown
-                        setVisible={setUserDropDown}
-                        visible={userDropDown}
-                        side="bottom"
-                        body={<div>Log-out</div>}
-                    />
                 </div>
             </div>
         </div>

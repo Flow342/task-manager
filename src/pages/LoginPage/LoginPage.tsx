@@ -20,9 +20,10 @@ const LoginPage: FC = () => {
         e.preventDefault();
         try {
             await loginUser({ email, pass }).unwrap();
-            navigate("/");
         } catch (err) {
             console.error("Failed to login", err);
+        } finally {
+            navigate("/feed");
         }
     };
 

@@ -30,9 +30,10 @@ const RegPage: FC = () => {
                     name,
                 }).unwrap();
                 dispatch(setUserName(name));
-                navigate("/");
             } catch (err) {
                 console.log(error);
+            } finally {
+                navigate("/feed");
             }
         } else {
             setError("The minimum number of characters in a password - 8");

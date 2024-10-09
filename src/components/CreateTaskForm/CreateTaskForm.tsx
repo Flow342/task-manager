@@ -115,7 +115,6 @@ const CreateTaskForm: FC<TCreateTaskForm> = ({
                         setValue={setFolder}
                         value={folder}
                         required
-                        placeholder="Folder"
                     />
                     <AiOutlineClose
                         className={styles.icon}
@@ -128,9 +127,10 @@ const CreateTaskForm: FC<TCreateTaskForm> = ({
                     <select
                         onChange={(e) => setFolder(e.target.value)}
                         className={styles.form_folder_select}
+                        required
                     >
                         <option value="" hidden>
-                            select
+                            folder
                         </option>
 
                         {[...folders].map((folder, index) => (

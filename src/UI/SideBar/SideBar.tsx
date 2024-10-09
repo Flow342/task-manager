@@ -1,24 +1,25 @@
 import styles from "./SideBar.module.sass";
-import { FC, useState } from "react";
+import { FC, useMemo, useState } from "react";
 import { AiOutlineMenu, AiOutlineSetting } from "react-icons/ai";
 import SideBarItem from "../SideBarItem/SideBarItem";
+import { useWindowSize } from "react-use";
 
 const SideBar: FC = () => {
     const rootStyles = [styles.side_bar];
     const [isWide, setIsWide] = useState<boolean>(false);
+    const windowSizeX = useWindowSize().width;
 
-    // const userSignOut = async () => {
-    //     try {
-    //         await signOut(auth);
-    //         dispatch(removeUser());
-    //     } catch (err) {
-    //         console.log(err, "sign out error");
-    //     }
-    // };
-
-    if (isWide) {
+    if (!isWide) {
         rootStyles.push(styles.side_bar_active);
     }
+
+    useMemo(() => {
+        if (windowSizeX > 1024) {
+            setIsWide(true);
+        } else {
+            setIsWide(false);
+        }
+    }, [windowSizeX]);
 
     return (
         <nav className={rootStyles.join(" ")}>
