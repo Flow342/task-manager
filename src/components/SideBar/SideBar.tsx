@@ -1,7 +1,7 @@
 import styles from "./SideBar.module.sass";
 import { FC, useMemo, useState } from "react";
 import { AiOutlineMenu, AiOutlineSetting } from "react-icons/ai";
-import SideBarItem from "../SideBarItem/SideBarItem";
+import SideBarItem from "../../UI/SideBarItem/SideBarItem";
 import { useWindowSize } from "react-use";
 
 const SideBar: FC = () => {

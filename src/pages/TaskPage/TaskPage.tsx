@@ -2,42 +2,39 @@ import { FC, useEffect, useState } from "react";
 import styles from "./TaskPage.module.sass";
 import { useParams } from "react-router-dom";
 import Loader from "../../UI/Loader/Loader";
-import { doc, getDoc } from "firebase/firestore";
-import { db } from "../../firebase";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 import { TTask } from "../../interfaces/interfaces";
+// import { useGetTaskByIdMutation } from "../../store/userApi";
+// import { db } from "../../firebase";
+// import { doc, getDoc } from "firebase/firestore";
+import { useGetTaskByIdMutation } from "../../store/userApi";
 
 const TaskPage: FC = () => {
     const params = useParams();
-    const [loading, setLoading] = useState<boolean>(true);
+    // const [loading, setLoading] = useState<boolean>(true);
     const [taskData, setTaskData] = useState<TTask>();
     const user = useSelector((state: RootState) => state.user);
+    const [getDocById, { isLoading }] = useGetTaskByIdMutation();
 
-    const getDocById = async () => {
+    const getDoc = async () => {
         try {
-            const docRef = await getDoc(
-                doc(
-                    db,
-                    "projects",
-                    user.userProjectId as string,
-                    "tasks",
-                    params.id as string
-                )
-            );
-            setTaskData(docRef.data() as TTask);
+            const docRef = await getDocById({
+                taskId: params.id as string,
+                userProjectId: user.userProjectId as string,
+            });
+
+            setTaskData(docRef.data);
         } catch (err) {
             console.log(err);
-        } finally {
-            setLoading(false);
         }
     };
 
     useEffect(() => {
-        getDocById();
+        getDoc();
     }, []);
 
-    if (loading) {
+    if (isLoading) {
         return (
             <div className={styles.loader_wrapper}>
                 <Loader />
@@ -51,7 +48,8 @@ const TaskPage: FC = () => {
                 <h1>{taskData?.folder}</h1>
                 <div className={styles.header_other}>...</div>
             </div>
-            <div>{taskData?.description}</div>
+            <div className={styles.description}>{taskData?.description}</div>
+            <div className={styles.active_users}></div>
         </div>
     );
 };

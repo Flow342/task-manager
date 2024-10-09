@@ -1,6 +1,6 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.sass";
-import SideBar from "./UI/SideBar/SideBar";
+import SideBar from "./components/SideBar/SideBar";
 import { privateRoutes, publicRoutes } from "./routes/routes";
 import { auth } from "./firebase";
 import { useDispatch, useSelector } from "react-redux";

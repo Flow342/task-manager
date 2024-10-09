@@ -10,21 +10,23 @@ import { signOut } from "firebase/auth";
 import { removeUser } from "../../store/reducers/userSlice";
 import Loader from "../../UI/Loader/Loader";
 import { useNavigate } from "react-router-dom";
+import { useGetProjectByIdMutation } from "../../store/userApi";
 
 const TopBar = () => {
     const user = useSelector((state: RootState) => state.user);
     const [title, setTitle] = useState<string>("");
     const [userDropDown, setUserDropDown] = useState<boolean>(false);
+    const [getProject] = useGetProjectByIdMutation();
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
     const getTitle = async () => {
         try {
             if (user.userProjectId) {
-                const proj = await getDoc(
-                    doc(db, "projects", user.userProjectId)
-                );
-                setTitle(proj.data()?.title);
+                const proj = await getProject({
+                    userProjectId: user.userProjectId,
+                });
+                setTitle(proj.data?.title as string);
             }
         } catch (err) {
             console.log(err);
