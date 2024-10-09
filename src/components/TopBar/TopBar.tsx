@@ -33,6 +33,7 @@ const TopBar = () => {
 
     useEffect(() => {
         getTitle();
+        document.title = title;
     }, []);
 
     const userSignOut = async () => {
