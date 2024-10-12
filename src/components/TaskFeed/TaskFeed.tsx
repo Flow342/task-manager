@@ -1,5 +1,5 @@
 import styles from "./TaskFeed.module.sass";
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 import {
     DocumentData,
     collection,
@@ -12,12 +12,15 @@ import { RootState } from "../../store/store";
 import Loader from "../../UI/Loader/Loader";
 import { TTask, TUser } from "../../interfaces/interfaces";
 import TasksColumn from "../TasksColumn/TasksColumn";
+import { useWindowSize } from "react-use";
 
 const TaskFeed: FC = () => {
     const user = useSelector((state: RootState) => state.user);
     const [tasks, setTasks] = useState<TTask[]>([]);
     const [users, setUsers] = useState<TUser[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
+    const feedRef = useRef<HTMLDivElement>(null);
+    const width = useWindowSize().width;
 
     const statuses = ["Todo", "In Progress", "In Review", "Done"];
 
@@ -33,6 +36,27 @@ const TaskFeed: FC = () => {
 
         setUsers([...(usersArr as TUser[])]);
     };
+
+    useEffect(() => {
+        const container = feedRef.current;
+
+        if (container) {
+            const handleScroll = (event: WheelEvent) => {
+                event.preventDefault();
+                if (width > 750) {
+                    container.scrollLeft += event.deltaY * 2;
+                } else {
+                    container.scrollLeft += event.deltaY * 5;
+                }
+            };
+
+            container.addEventListener("wheel", handleScroll);
+
+            return () => {
+                container.removeEventListener("wheel", handleScroll);
+            };
+        }
+    }, []);
 
     useEffect(() => {
         try {
@@ -73,7 +97,7 @@ const TaskFeed: FC = () => {
                     <Loader />
                 </div>
             ) : (
-                <div className={styles.task_feed}>
+                <div className={styles.task_feed} ref={feedRef}>
                     {statuses.map((item, index) => (
                         <div key={index} className={styles.task_feed_column}>
                             <TasksColumn

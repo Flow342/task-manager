@@ -107,7 +107,7 @@ const CreateTaskForm: FC<TCreateTaskForm> = ({
         <form onSubmit={onSubmit} className={styles.form}>
             {isLoading && <OverAllLoader />}
             <h1 className={styles.form_title}>Create Task</h1>
-            {isNewFolder ? (
+            {isNewFolder || !folders.length ? (
                 <div className={styles.form_folder}>
                     <label htmlFor="folder_input">Folder</label>
                     <FormInput
@@ -170,18 +170,22 @@ const CreateTaskForm: FC<TCreateTaskForm> = ({
                     min={date.toISOString().split("T")[0]}
                 />
             </div>
-            <FormSelectUser
-                req={false}
-                setUser={setTester}
-                users={testers}
-                title="Tester"
-            />
-            <FormSelectUser
-                req={false}
-                setUser={setPerformer}
-                users={performers}
-                title="Performer"
-            />
+            {testers.length && (
+                <FormSelectUser
+                    req={false}
+                    setUser={setTester}
+                    users={testers}
+                    title="Tester"
+                />
+            )}
+            {performers.length && (
+                <FormSelectUser
+                    req={false}
+                    setUser={setPerformer}
+                    users={performers}
+                    title="Performer"
+                />
+            )}
             <div className={styles.submit_wrapper}>
                 <button type="submit" className={styles.button}>
                     Create

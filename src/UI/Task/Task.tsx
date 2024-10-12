@@ -1,26 +1,14 @@
 import { FC } from "react";
 import styles from "./Task.module.sass";
 import { TTask } from "../../interfaces/interfaces";
-// import { useSelector } from "react-redux";
-// import { RootState } from "../../store/store";
 import { AiFillCalendar } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 
 type TaskProps = {
     task: TTask;
-    // tester: TUser;
-    // performer: TUser;
-    // client: TUser;
 };
 
 const Task: FC<TaskProps> = ({ task }) => {
-    // const user = useSelector((state: RootState) => state.user);
-    // const [isEditable, setIsEditable] = useState<boolean>(false);
-
-    // if (user.id === client.userId && user.role === "owner") {
-    // setIsEditable(true);
-    // }
-
     const navigate = useNavigate();
 
     return (

@@ -72,11 +72,11 @@ const TopBar = () => {
         <div className={styles.wrapper}>
             <div className={styles.left_side}>
                 {user.userProjectId && (
-                    <div className={styles.project_title}>
-                        <AiFillProject />
-                        <div onClick={() => navigate("/feed")}>
-                            /{title ? title : <Loader />}
-                        </div>
+                    <div
+                        onClick={() => navigate("/feed")}
+                        className={styles.project_title}
+                    >
+                        <AiFillProject />/{title ? title : <Loader />}
                         <div className={styles.project_id}>
                             {" "}
                             ({user.userProjectId})
@@ -85,17 +85,6 @@ const TopBar = () => {
                 )}
             </div>
             <div className={styles.right_side}>
-                {/* <div className={styles.search}>
-                    <AiOutlineSearch
-                        fill="#464646"
-                        className={styles.search_icon}
-                    />
-                    <input
-                        id="search"
-                        type="text"
-                        placeholder="      search tasks..."
-                    />
-                </div> */}
                 <div
                     onClick={(e) => {
                         e.stopPropagation();

@@ -88,6 +88,14 @@ const TaskPage: FC = () => {
         }
     };
 
+    const deleteTask = () => {
+        return 0;
+    };
+
+    const editTask = () => {
+        return 0;
+    };
+
     return (
         <div className={styles.wrapper}>
             <div className={styles.header}>
@@ -113,6 +121,7 @@ const TaskPage: FC = () => {
                                         className={
                                             styles.header_other_dropdown_item
                                         }
+                                        onClick={deleteTask}
                                     >
                                         <AiOutlineDelete />
                                         Delete
@@ -121,6 +130,7 @@ const TaskPage: FC = () => {
                                         className={
                                             styles.header_other_dropdown_item
                                         }
+                                        onClick={editTask}
                                     >
                                         <AiOutlineEdit />
                                         Edit

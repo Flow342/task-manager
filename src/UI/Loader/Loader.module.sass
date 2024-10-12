@@ -1,13 +1,11 @@
-@keyframes line-scale-pulse-out 
+@keyframes line-scale-pulse-out
     0%
         transform: scaleY(1.0)
     50%
         transform: scaleY(0.4)
     100%
         transform: scaleY(1.0)
-  
 
-    
 .wrapper
     display: flex
 
@@ -15,6 +13,9 @@
     animation: line-scale-pulse-out 0.9s infinite cubic-bezier(.85,.25,.37,.85)
     margin: 2px
     font-size: 25px
+
+    @media screen and (max-width: 1024px)
+        font-size: 15px
 
     &:nth-child(2), &:nth-child(4)
         animation-delay: 0.2s
