@@ -70,22 +70,29 @@ const TopBar = () => {
                         placeholder="      search tasks..."
                     />
                 </div>
-                <div className={styles.user}>
-                    <div
-                        onClick={(e) => {
-                            e.stopPropagation();
-                            setUserDropDown(!userDropDown);
-                        }}
-                        className={styles.user_name}
-                    >
-                        {user.name}
-                        <DropDown
-                            setVisible={setUserDropDown}
-                            visible={userDropDown}
-                            side="bottom"
-                            body={<div onClick={userSignOut}>Log-out</div>}
-                        />
-                    </div>
+                <div
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        setUserDropDown(!userDropDown);
+                    }}
+                    className={styles.user}
+                >
+                    <div className={styles.user_name}>{user.name}</div>
+                    <DropDown
+                        setVisible={setUserDropDown}
+                        visible={userDropDown}
+                        side="left"
+                        body={
+                            <div className={styles.user_dropdown}>
+                                <div
+                                    onClick={userSignOut}
+                                    className={styles.user_dropdown_item}
+                                >
+                                    Log-out
+                                </div>
+                            </div>
+                        }
+                    />
                     <AiOutlineUser className={styles.user_icon} />
                 </div>
             </div>
