@@ -56,6 +56,8 @@ const TaskFeed: FC = () => {
                         if (docs.size == taskArr.length) {
                             setLoading(false);
                         }
+                    } else {
+                        setLoading(false);
                     }
                 }
             );

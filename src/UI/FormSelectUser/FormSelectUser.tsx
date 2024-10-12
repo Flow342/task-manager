@@ -6,14 +6,15 @@ type props = {
     setUser: Dispatch<SetStateAction<string>>;
     title?: string;
     users: TUser[];
+    req: boolean;
 };
 
-const FormSelectUser: FC<props> = ({ setUser, title, users }) => {
+const FormSelectUser: FC<props> = ({ setUser, title, users, req }) => {
     return (
         <div className={styles.wrapper}>
             {title && <label htmlFor={title}>{title}</label>}
             <select
-                required
+                required={req}
                 onChange={(e) => setUser(e.target.value)}
                 id={title}
                 className={styles.select}

@@ -2,7 +2,7 @@ import { Dispatch, FC, FormEvent, SetStateAction, useState } from "react";
 import styles from "./CreateProjectForm.module.sass";
 import FormInput from "../../UI/FormInput/FormInput";
 import Button from "../../UI/Button/Button";
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, doc, setDoc, updateDoc } from "firebase/firestore";
 import { db } from "../../firebase";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store/store";
@@ -23,8 +23,22 @@ const CreateProjectForm: FC<TCreateProjectForm> = ({ setVisible }) => {
         const docRef = await addDoc(collection(db, "projects"), {
             ownerId: user.id,
             title: title,
-            users: [user.id],
-            tasks: [],
+        });
+
+        await setDoc(
+            doc(db, "projects", docRef.id, "users", user.id as string),
+            {
+                displayName: user.name,
+                email: user.email,
+                photoUrl: user.photoURL,
+                role: "owner",
+                userId: user.id,
+                userProjectId: docRef.id,
+            }
+        );
+
+        await updateDoc(doc(db, "users", user.id as string), {
+            userProjectId: docRef.id,
         });
         dispatch(setUserProjectId(docRef.id));
     };

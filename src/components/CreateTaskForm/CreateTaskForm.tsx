@@ -10,7 +10,7 @@ import styles from "./CreateTaskForm.module.sass";
 import FormInput from "../../UI/FormInput/FormInput";
 import "react-date-picker/dist/DatePicker.css";
 import { TUser } from "../../interfaces/interfaces";
-import FormSelect from "../../UI/FormSelectUser/FormSelectUser";
+import FormSelectUser from "../../UI/FormSelectUser/FormSelectUser";
 import { addDoc, collection } from "firebase/firestore";
 import { db } from "../../firebase";
 import { useSelector } from "react-redux";
@@ -170,8 +170,14 @@ const CreateTaskForm: FC<TCreateTaskForm> = ({
                     min={date.toISOString().split("T")[0]}
                 />
             </div>
-            <FormSelect setUser={setTester} users={testers} title="Tester" />
-            <FormSelect
+            <FormSelectUser
+                req={false}
+                setUser={setTester}
+                users={testers}
+                title="Tester"
+            />
+            <FormSelectUser
+                req={false}
                 setUser={setPerformer}
                 users={performers}
                 title="Performer"
