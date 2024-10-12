@@ -29,10 +29,10 @@ const userSlice = createSlice({
         setUser(state, action) {
             return { ...state, ...action.payload };
         },
-        setUserName(state, action: PayloadAction<string>) {
+        setUserName(state, action: PayloadAction<string | null>) {
             state.name = action.payload;
         },
-        setUserProjectId(state, action: PayloadAction<string>) {
+        setUserProjectId(state, action: PayloadAction<string | null>) {
             state.userProjectId = action.payload;
         },
         removeUser(state) {

@@ -1,15 +1,16 @@
 import { useDispatch, useSelector } from "react-redux";
 import styles from "./TopBar.module.sass";
-import { AiFillProject, AiOutlineUser, AiOutlineSearch } from "react-icons/ai";
+import { AiFillProject, AiOutlineUser } from "react-icons/ai";
 import { RootState } from "../../store/store";
 import { useEffect, useState } from "react";
-import { auth } from "../../firebase";
+import { auth, db } from "../../firebase";
 import DropDown from "../../UI/DropDown/DropDown";
 import { signOut } from "firebase/auth";
-import { removeUser } from "../../store/reducers/userSlice";
+import { removeUser, setUserProjectId } from "../../store/reducers/userSlice";
 import Loader from "../../UI/Loader/Loader";
 import { useNavigate } from "react-router-dom";
 import { useGetProjectByIdMutation } from "../../store/userApi";
+import { deleteDoc, doc } from "firebase/firestore";
 
 const TopBar = () => {
     const user = useSelector((state: RootState) => state.user);
@@ -41,8 +42,26 @@ const TopBar = () => {
         try {
             await signOut(auth);
             dispatch(removeUser());
+            navigate("/login");
         } catch (err) {
             console.log(err, "sign out error");
+        }
+    };
+
+    const leaveProject = async () => {
+        try {
+            await deleteDoc(
+                doc(
+                    db,
+                    "projects",
+                    user.userProjectId as string,
+                    "users",
+                    user.id as string
+                )
+            );
+            dispatch(setUserProjectId(null));
+        } catch (err) {
+            console.log(err);
         }
     };
 
@@ -55,11 +74,15 @@ const TopBar = () => {
                         <div onClick={() => navigate("/feed")}>
                             /{title ? title : <Loader />}
                         </div>
+                        <div className={styles.project_id}>
+                            {" "}
+                            ({user.userProjectId})
+                        </div>
                     </div>
                 )}
             </div>
             <div className={styles.right_side}>
-                <div className={styles.search}>
+                {/* <div className={styles.search}>
                     <AiOutlineSearch
                         fill="#464646"
                         className={styles.search_icon}
@@ -69,7 +92,7 @@ const TopBar = () => {
                         type="text"
                         placeholder="      search tasks..."
                     />
-                </div>
+                </div> */}
                 <div
                     onClick={(e) => {
                         e.stopPropagation();
@@ -89,6 +112,12 @@ const TopBar = () => {
                                     className={styles.user_dropdown_item}
                                 >
                                     Log-out
+                                </div>
+                                <div
+                                    onClick={leaveProject}
+                                    className={styles.user_dropdown_item}
+                                >
+                                    Leave project
                                 </div>
                             </div>
                         }

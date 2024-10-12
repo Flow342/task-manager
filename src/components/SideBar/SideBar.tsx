@@ -14,7 +14,7 @@ const SideBar: FC = () => {
     }
 
     useMemo(() => {
-        if (windowSizeX > 1024) {
+        if (windowSizeX > 1600) {
             setIsWide(true);
         } else {
             setIsWide(false);
