@@ -3,7 +3,7 @@ import styles from "./TaskFeedPage.module.sass";
 import TaskFeed from "../../components/TaskFeed/TaskFeed";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
-import CreateOrJoinProject from "../../components/CreateOrLoginProject/CreateOrJoinProject";
+import CreateOrJoinProject from "../../components/CreateOrJoinProject/CreateOrJoinProject";
 
 const TaskFeedPage: FC = () => {
     const user = useSelector((state: RootState) => state.user);
