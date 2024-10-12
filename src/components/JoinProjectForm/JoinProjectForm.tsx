@@ -45,18 +45,18 @@ const JoinProjectForm: FC<TJoinProjectForm> = ({ setVisible }) => {
         <div className={styles.wrapper}>
             <h1>Join project</h1>
             <form onSubmit={(e) => formHandler(e)} className={styles.form}>
-                <label className={styles.form_label} htmlFor="id">
-                    Project id
-                </label>
+                <label className={styles.form_label} htmlFor="join"></label>
+                Project id
                 <FormInput
                     type="text"
-                    id="Id"
+                    id="join"
                     value={projectId}
                     setValue={setProjectId}
                     placeholder="Id..."
                 />
                 <Button type="submit">Join</Button>
             </form>
+            (you can use project with id Q2vYmvKWVcIgFfagRqf3)
         </div>
     );
 };
