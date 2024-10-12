@@ -11,6 +11,7 @@ import Loader from "../../UI/Loader/Loader";
 import { useNavigate } from "react-router-dom";
 import { useGetProjectByIdMutation } from "../../store/userApi";
 import { deleteDoc, doc, updateDoc } from "firebase/firestore";
+import logo from "../../assets/logo.svg";
 
 const TopBar = () => {
     const user = useSelector((state: RootState) => state.user);
@@ -76,6 +77,7 @@ const TopBar = () => {
                         onClick={() => navigate("/feed")}
                         className={styles.project_title}
                     >
+                        <img src={logo} alt="logo" />
                         <AiFillProject />/{title ? title : <Loader />}
                         <div className={styles.project_id}>
                             {" "}

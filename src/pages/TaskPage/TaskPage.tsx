@@ -1,16 +1,11 @@
 import { FC, FormEvent, useEffect, useState } from "react";
 import styles from "./TaskPage.module.sass";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 import { TTask } from "../../interfaces/interfaces";
-import {
-    AiOutlineDelete,
-    AiOutlineEdit,
-    AiOutlineSend,
-    AiOutlineUser,
-} from "react-icons/ai";
-import { doc, onSnapshot, updateDoc } from "firebase/firestore";
+import { AiOutlineDelete, AiOutlineSend, AiOutlineUser } from "react-icons/ai";
+import { deleteDoc, doc, onSnapshot, updateDoc } from "firebase/firestore";
 import { db } from "../../firebase";
 import DropDown from "../../UI/DropDown/DropDown";
 
@@ -21,6 +16,7 @@ const TaskPage: FC = () => {
     const [comment, setComment] = useState<string>("");
     const [date, setDate] = useState<number>(0);
     const [otherVisible, setOtherVisible] = useState<boolean>(false);
+    const navigate = useNavigate();
 
     const sendComment = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -88,13 +84,27 @@ const TaskPage: FC = () => {
         }
     };
 
-    const deleteTask = () => {
-        return 0;
+    const deleteTask = async () => {
+        try {
+            await deleteDoc(
+                doc(
+                    db,
+                    "projects",
+                    user.userProjectId as string,
+                    "tasks",
+                    params.id as string
+                )
+            );
+        } catch (err) {
+            console.log(err);
+        } finally {
+            navigate("/feed");
+        }
     };
 
-    const editTask = () => {
-        return 0;
-    };
+    // const editTask = () => {
+    //     return 0;
+    // };
 
     return (
         <div className={styles.wrapper}>
@@ -126,7 +136,7 @@ const TaskPage: FC = () => {
                                         <AiOutlineDelete />
                                         Delete
                                     </div>
-                                    <div
+                                    {/* <div
                                         className={
                                             styles.header_other_dropdown_item
                                         }
@@ -134,7 +144,7 @@ const TaskPage: FC = () => {
                                     >
                                         <AiOutlineEdit />
                                         Edit
-                                    </div>
+                                    </div> */}
                                 </div>
                             }
                         />
