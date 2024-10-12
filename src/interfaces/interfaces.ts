@@ -7,8 +7,10 @@ export type TUser = {
 };
 
 export type TComment = {
+    comment: string;
+    senderid: string;
+    senderName: string;
     createdAt: string;
-    description: string;
 };
 
 export type TTask = {
@@ -27,7 +29,7 @@ export type TTask = {
         | "done"
         | "released";
     folder: string;
-    id: number;
+    id: string;
 };
 
 export type TProject = {

@@ -9,7 +9,7 @@ import {
 } from "firebase/auth";
 import { auth, db } from "../firebase";
 import { doc, getDoc, setDoc } from "firebase/firestore";
-import { TProject, TTask, TUser } from "../interfaces/interfaces";
+import { TProject, TUser } from "../interfaces/interfaces";
 
 type LoginArgs = {
     email: string;
@@ -88,31 +88,6 @@ export const userApi = createApi({
                 }
             },
         }),
-        getTaskById: build.mutation<
-            TTask,
-            { userProjectId: string; taskId: string }
-        >({
-            queryFn: async ({
-                userProjectId,
-                taskId,
-            }): Promise<{ data?: TTask; error?: any }> => {
-                try {
-                    const task = await getDoc(
-                        doc(
-                            db,
-                            "projects",
-                            userProjectId as string,
-                            "tasks",
-                            taskId as string
-                        )
-                    );
-
-                    return { data: task.data() as TTask };
-                } catch (err) {
-                    return { error: { err } };
-                }
-            },
-        }),
         getProjectById: build.mutation<TProject, { userProjectId: string }>({
             queryFn: async ({
                 userProjectId,
@@ -135,6 +110,5 @@ export const {
     useLoginMutation,
     useRegisterMutation,
     useGetUserByIdMutation,
-    useGetTaskByIdMutation,
     useGetProjectByIdMutation,
 } = userApi;

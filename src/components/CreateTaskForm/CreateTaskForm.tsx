@@ -123,11 +123,12 @@ const CreateTaskForm: FC<TCreateTaskForm> = ({
                 </div>
             ) : (
                 <div className={styles.form_folder}>
-                    <label htmlFor="">Select</label>
+                    <label htmlFor="folder_select">Select</label>
                     <select
                         onChange={(e) => setFolder(e.target.value)}
                         className={styles.form_folder_select}
                         required
+                        id="folder_select"
                     >
                         <option value="" hidden>
                             folder

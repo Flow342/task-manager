@@ -64,7 +64,11 @@ const TopBar = () => {
                         fill="#464646"
                         className={styles.search_icon}
                     />
-                    <input type="text" placeholder="      search tasks..." />
+                    <input
+                        id="search"
+                        type="text"
+                        placeholder="      search tasks..."
+                    />
                 </div>
                 <div className={styles.user}>
                     <div
