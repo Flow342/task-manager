@@ -10,7 +10,7 @@ import { removeUser, setUserProjectId } from "../../store/reducers/userSlice";
 import Loader from "../../UI/Loader/Loader";
 import { useNavigate } from "react-router-dom";
 import { useGetProjectByIdMutation } from "../../store/userApi";
-import { deleteDoc, doc } from "firebase/firestore";
+import { deleteDoc, doc, updateDoc } from "firebase/firestore";
 
 const TopBar = () => {
     const user = useSelector((state: RootState) => state.user);
@@ -59,6 +59,9 @@ const TopBar = () => {
                     user.id as string
                 )
             );
+            await updateDoc(doc(db, "users", user.id as string), {
+                userProjectId: null,
+            });
             dispatch(setUserProjectId(null));
         } catch (err) {
             console.log(err);
