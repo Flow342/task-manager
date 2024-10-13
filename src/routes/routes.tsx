@@ -10,7 +10,7 @@ export const privateRoutes = [
         element: <TaskPage />,
         path: "/tasks/:id",
     },
-    { element: <Redirect />, path: "/" },
+    { element: <Redirect />, path: "*" },
 ];
 
 export const publicRoutes = [
