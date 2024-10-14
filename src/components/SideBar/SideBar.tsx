@@ -26,12 +26,6 @@ const SideBar: FC = () => {
     return (
         <nav className={rootStyles.join(" ")}>
             <SideBarItem
-                icon={<AiOutlineMenu className={styles.icon} />}
-                isWide={isWide}
-                onClick={() => setIsWide(!isWide)}
-                text="Close"
-            />
-            <SideBarItem
                 icon={<AiOutlineSetting className={styles.icon} />}
                 isWide={isWide}
                 onClick={() => navigate("/settings")}
@@ -43,6 +37,14 @@ const SideBar: FC = () => {
                 onClick={() => 0}
                 text="Help"
             />
+            <div className={styles.bottom_close}>
+                <SideBarItem
+                    icon={<AiOutlineMenu className={styles.icon} />}
+                    isWide={isWide}
+                    onClick={() => setIsWide(!isWide)}
+                    text="Close"
+                />
+            </div>
         </nav>
     );
 };
