@@ -1,13 +1,21 @@
-import { FC, FormEvent, useEffect, useState } from "react";
+import {
+    Dispatch,
+    FC,
+    FormEvent,
+    SetStateAction,
+    useEffect,
+    useState,
+} from "react";
 import styles from "./TaskPage.module.sass";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
-import { TTask } from "../../interfaces/interfaces";
+import { TTask, TUser } from "../../interfaces/interfaces";
 import { AiOutlineDelete, AiOutlineSend, AiOutlineUser } from "react-icons/ai";
 import { deleteDoc, doc, onSnapshot, updateDoc } from "firebase/firestore";
 import { db } from "../../firebase";
 import DropDown from "../../UI/DropDown/DropDown";
+import { useGetUserByIdMutation } from "../../store/userApi";
 
 const TaskPage: FC = () => {
     const params = useParams();
@@ -18,6 +26,10 @@ const TaskPage: FC = () => {
     const [otherVisible, setOtherVisible] = useState<boolean>(false);
     const navigate = useNavigate();
     const [newStatus, setNewStatus] = useState<string>("");
+    const [getUserById] = useGetUserByIdMutation();
+    const [client, setClient] = useState<TUser | undefined>();
+    const [performer, setPerformer] = useState<TUser | undefined>();
+    const [tester, setTester] = useState<TUser | undefined>();
 
     const sendComment = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -50,6 +62,16 @@ const TaskPage: FC = () => {
         }
     };
 
+    const getUser = async (
+        id: string,
+        setUser: Dispatch<SetStateAction<TUser | undefined>>
+    ) => {
+        const userIdBy = await getUserById({
+            userId: id,
+        });
+        setUser(userIdBy.data);
+    };
+
     useEffect(() => {
         const dateNow = new Date().getTime();
         setDate(dateNow);
@@ -65,6 +87,10 @@ const TaskPage: FC = () => {
                 (doc) => {
                     if (doc.exists()) {
                         setTaskData(doc.data() as TTask);
+                        const docData = doc.data();
+                        getUser(docData.clientId, setClient);
+                        getUser(docData.performerId, setPerformer);
+                        getUser(docData.testerId, setTester);
                     }
                 }
             );
@@ -233,6 +259,23 @@ const TaskPage: FC = () => {
                         </button>
                     </div>
                 </form>
+            </div>
+            <div className={styles.users}>
+                <div className={styles.user}>
+                    Client: <AiOutlineUser className={styles.user_icon} />{" "}
+                    {client?.displayName}
+                    <p>({client?.userId})</p>
+                </div>
+                <div className={styles.user}>
+                    Performer: <AiOutlineUser className={styles.user_icon} />{" "}
+                    {performer?.displayName}
+                    <p>({performer?.userId})</p>
+                </div>
+                <div className={styles.user}>
+                    Tester: <AiOutlineUser className={styles.user_icon} />{" "}
+                    {tester?.displayName}
+                    <p>({tester?.userId})</p>
+                </div>
             </div>
         </div>
     );

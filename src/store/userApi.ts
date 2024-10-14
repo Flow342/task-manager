@@ -59,7 +59,7 @@ export const userApi = createApi({
                         pass
                     );
                     await setDoc(doc(db, "users", userCredential.user.uid), {
-                        id: userCredential.user.uid,
+                        userId: userCredential.user.uid,
                         displayName: name,
                         role: null,
                         userProjectId: null,
