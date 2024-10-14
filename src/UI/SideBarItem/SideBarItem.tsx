@@ -8,9 +8,13 @@ type props = {
     isWide: boolean;
 };
 
-const SideBarItem: FC<props> = ({ text, onClick, icon }) => {
+const SideBarItem: FC<props> = ({ text, onClick, icon, isWide }) => {
     return (
-        <div onClick={(e) => onClick(e)} className={styles.container}>
+        <div
+            title={isWide ? undefined : text}
+            onClick={(e) => onClick(e)}
+            className={styles.container}
+        >
             {icon}
             <p>{text}</p>
         </div>

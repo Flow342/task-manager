@@ -3,11 +3,13 @@ import { FC, useMemo, useState } from "react";
 import { AiOutlineMenu, AiOutlineSetting } from "react-icons/ai";
 import SideBarItem from "../../UI/SideBarItem/SideBarItem";
 import { useWindowSize } from "react-use";
+import { useNavigate } from "react-router-dom";
 
 const SideBar: FC = () => {
     const rootStyles = [styles.side_bar];
     const [isWide, setIsWide] = useState<boolean>(false);
     const windowSizeX = useWindowSize().width;
+    const navigate = useNavigate();
 
     if (!isWide) {
         rootStyles.push(styles.side_bar_active);
@@ -32,7 +34,7 @@ const SideBar: FC = () => {
             <SideBarItem
                 icon={<AiOutlineSetting className={styles.icon} />}
                 isWide={isWide}
-                onClick={() => 0}
+                onClick={() => navigate("/settings")}
                 text="Settings"
             />
             <SideBarItem
