@@ -17,6 +17,7 @@ const TaskPage: FC = () => {
     const [date, setDate] = useState<number>(0);
     const [otherVisible, setOtherVisible] = useState<boolean>(false);
     const navigate = useNavigate();
+    const [newStatus, setNewStatus] = useState<string>("");
 
     const sendComment = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -102,16 +103,59 @@ const TaskPage: FC = () => {
         }
     };
 
+    const changeStatus = async () => {
+        try {
+            await updateDoc(
+                doc(
+                    db,
+                    "projects",
+                    user.userProjectId as string,
+                    "tasks",
+                    params.id as string
+                ),
+                { status: newStatus as string }
+            );
+        } catch (err) {
+            console.log("change status", err);
+        } finally {
+            navigate("/feed");
+        }
+    };
+
     // const editTask = () => {
     //     return 0;
     // };
+
+    const statusValues = ["Todo", "In Progress", "In Review", "Done"];
 
     return (
         <div className={styles.wrapper}>
             <div className={styles.header}>
                 <div className={styles.header_folder_status}>
                     {taskData?.folder}
-                    <div>({taskData?.status})</div>
+                    <div>
+                        ({taskData?.status}) or set new{" "}
+                        <select
+                            onChange={(e) => setNewStatus(e.target.value)}
+                            className={styles.header_folder_status_select}
+                        >
+                            <option defaultValue="" hidden>
+                                status
+                            </option>
+                            {statusValues.map((item, index) => {
+                                if (item !== taskData?.status) {
+                                    return (
+                                        <option value={item} key={index}>
+                                            {item}
+                                        </option>
+                                    );
+                                }
+                            })}
+                        </select>
+                        {newStatus && (
+                            <button onClick={() => changeStatus()}>Set</button>
+                        )}
+                    </div>
                 </div>
                 {user.id === taskData?.clientId && (
                     <div
