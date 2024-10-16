@@ -3,6 +3,7 @@ import { FC, FormEvent, useState } from "react";
 import AuthForm from "../../components/AuthForm/AuthForm";
 import { Link } from "react-router-dom";
 import { useLoginMutation } from "../../store/userApi";
+import logo from "../../assets/logo.svg";
 
 const LoginPage: FC = () => {
     const [pass, setPass] = useState<string>("");
@@ -26,6 +27,9 @@ const LoginPage: FC = () => {
 
     return (
         <div className={styles.container}>
+            <div className={styles.logo}>
+                <img src={logo} alt="logo" />
+            </div>
             <div className={styles.auth}>
                 <h1>Login</h1>
                 {!!error && <p className={styles.auth_error}>{error}</p>}

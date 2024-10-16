@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { useRegisterMutation } from "../../store/userApi";
 import { useDispatch } from "react-redux";
 import { setUserName } from "../../store/reducers/userSlice";
+import logo from "../../assets/logo.svg";
 
 const RegPage: FC = () => {
     const [pass, setPass] = useState<string>("");
@@ -39,6 +40,9 @@ const RegPage: FC = () => {
 
     return (
         <div className={styles.container}>
+            <div className={styles.logo}>
+                <img src={logo} alt="logo" />
+            </div>
             <div className={styles.auth}>
                 <h1>Register</h1>
                 {!!error && <p className={styles.auth_error}>{error}</p>}
