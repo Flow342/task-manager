@@ -1,4 +1,5 @@
 import { FC } from "react";
+import { useDraggable } from "@dnd-kit/core";
 import styles from "./Task.module.sass";
 import { TTask } from "../../interfaces/interfaces";
 import { AiFillCalendar } from "react-icons/ai";
@@ -11,8 +12,26 @@ type TaskProps = {
 const Task: FC<TaskProps> = ({ task }) => {
     const navigate = useNavigate();
 
+    // Хук DnD Kit для перетаскиваемого элемента
+    const { attributes, listeners, setNodeRef, transform, isDragging } =
+        useDraggable({
+            id: task.id, // Уникальный id для каждого task
+        });
+
+    // Применение трансформации при перетаскивании
+    const style = {
+        transform: transform
+            ? `translate3d(${transform.x}px, ${transform.y}px, 0)`
+            : undefined,
+        opacity: isDragging ? 0.5 : 1, // Уменьшение прозрачности при перетаскивании
+    };
+
     return (
         <div
+            ref={setNodeRef}
+            style={style}
+            {...listeners} // Добавляем обработчики событий
+            {...attributes} // Добавляем необходимые атрибуты
             onClick={() => navigate("/tasks/" + task.id)}
             className={styles.task}
         >

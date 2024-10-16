@@ -12,6 +12,8 @@ import { RootState } from "../../store/store";
 import Loader from "../../UI/Loader/Loader";
 import { TTask, TUser } from "../../interfaces/interfaces";
 import TasksColumn from "../TasksColumn/TasksColumn";
+import { DndContext, DragEndEvent } from "@dnd-kit/core"; // Импортируем компоненты DnD Kit
+import { updateTaskStatusOnServer } from "../../utils/updateTaskStatus";
 
 const TaskFeed: FC = () => {
     const user = useSelector((state: RootState) => state.user);
@@ -67,6 +69,57 @@ const TaskFeed: FC = () => {
         }
     }, [user.userProjectId]);
 
+    const handleDragEnd = async (event: DragEndEvent) => {
+        const { active, over } = event;
+
+        if (!over || active.id === over.id) {
+            return;
+        }
+
+        const newStatus = over.id as
+            | "done"
+            | "Todo"
+            | "in progress"
+            | "in review"
+            | "testing"
+            | "released";
+
+        const currentTask = tasks.find((task) => task.id === String(active.id));
+
+        if (!currentTask || currentTask.status === newStatus) {
+            return;
+        }
+
+        const previousStatus = currentTask.status;
+
+        const updatedTasks = tasks.map((task) =>
+            task.id === String(active.id)
+                ? { ...task, status: newStatus }
+                : task
+        );
+        setTasks(updatedTasks);
+
+        try {
+            await updateTaskStatusOnServer(
+                String(active.id),
+                newStatus,
+                user.userProjectId as string
+            );
+            console.log("Task status updated on server.");
+        } catch (error) {
+            console.error("Failed to update task on server:", error);
+
+            const revertedTasks = tasks.map((task) =>
+                task.id === String(active.id)
+                    ? { ...task, status: previousStatus }
+                    : task
+            );
+            setTasks(revertedTasks);
+
+            alert("Error updating the task on the server. Please try again.");
+        }
+    };
+
     return (
         <div className={styles.wrapper}>
             {loading ? (
@@ -74,17 +127,23 @@ const TaskFeed: FC = () => {
                     <Loader />
                 </div>
             ) : (
-                <div className={styles.task_feed} ref={feedRef}>
-                    {statuses.map((item, index) => (
-                        <div key={index} className={styles.task_feed_column}>
-                            <TasksColumn
-                                status={item}
-                                tasks={tasks}
-                                users={users}
-                            />
-                        </div>
-                    ))}
-                </div>
+                // Оборачиваем TaskFeed в DndContext
+                <DndContext onDragEnd={handleDragEnd}>
+                    <div className={styles.task_feed} ref={feedRef}>
+                        {statuses.map((item, index) => (
+                            <div
+                                key={index}
+                                className={styles.task_feed_column}
+                            >
+                                <TasksColumn
+                                    status={item}
+                                    tasks={tasks}
+                                    users={users}
+                                />
+                            </div>
+                        ))}
+                    </div>
+                </DndContext>
             )}
         </div>
     );

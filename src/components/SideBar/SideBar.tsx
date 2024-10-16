@@ -1,5 +1,5 @@
 import styles from "./SideBar.module.sass";
-import { FC, useEffect, useMemo, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { AiOutlineMenu, AiOutlineSetting } from "react-icons/ai";
 import SideBarItem from "../../UI/SideBarItem/SideBarItem";
 import { useWindowSize } from "react-use";
