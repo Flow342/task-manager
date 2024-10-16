@@ -1,12 +1,12 @@
-import { FC, useState } from "react";
+import { FC } from "react";
 import styles from "./SettingsPage.module.sass";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
-import { TUser } from "../../interfaces/interfaces";
+// import { TUser } from "../../interfaces/interfaces";
 
 const SettingsPage: FC = () => {
     const user = useSelector((state: RootState) => state.user);
-    const [users, setUsers] = useState<TUser[]>([]);
+    // const [users, setUsers] = useState<TUser[]>([]);
 
     return (
         <div className={styles.wrapper}>
