@@ -22,7 +22,7 @@ type RegArgs = {
 };
 
 type AuthResponse = {
-    userCredential: UserCredential;
+    userCredential?: UserCredential;
 };
 
 export const userApi = createApi({
@@ -42,10 +42,13 @@ export const userApi = createApi({
                     );
                     return { data: { userCredential } };
                 } catch (error) {
-                    return { error: { error } };
+                    return {
+                        error: error,
+                    };
                 }
             },
         }),
+
         register: build.mutation<AuthResponse, RegArgs>({
             queryFn: async ({
                 email,
@@ -71,7 +74,7 @@ export const userApi = createApi({
                     await reload(auth.currentUser as User);
                     return { data: { userCredential } };
                 } catch (error) {
-                    return { error: { error } };
+                    return { error: error };
                 }
             },
         }),

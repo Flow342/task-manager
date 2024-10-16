@@ -1,5 +1,5 @@
 import { Dispatch, FC, SetStateAction, useState } from "react";
-import AuthInput from "../../UI/FormInput/FormInput";
+import FormInput from "../../UI/FormInput/FormInput";
 import styles from "./EmailAndPassInputs.module.sass";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 
@@ -25,7 +25,7 @@ const EmailAndPassInputs: FC<IEmailAndPassInputs> = ({
     return (
         <div>
             <div className={styles.email_input}>
-                <AuthInput
+                <FormInput
                     placeholder="Email"
                     value={email}
                     setValue={setEmail}
@@ -36,7 +36,7 @@ const EmailAndPassInputs: FC<IEmailAndPassInputs> = ({
                 />
             </div>
             <div className={styles.pass_input}>
-                <AuthInput
+                <FormInput
                     placeholder="Password"
                     value={pass}
                     setValue={setPass}

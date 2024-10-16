@@ -19,4 +19,5 @@ export const publicRoutes = [
     { element: <RegPage />, path: "/register" },
     { element: <LoginPage />, path: "/login" },
     { element: <LoginPage />, path: "/" },
+    { element: <LoginPage />, path: "*" },
 ];

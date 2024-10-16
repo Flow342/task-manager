@@ -1,7 +1,7 @@
 import styles from "./RegPage.module.sass";
 import { FC, FormEvent, useState } from "react";
 import AuthForm from "../../components/AuthForm/AuthForm";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useRegisterMutation } from "../../store/userApi";
 import { useDispatch } from "react-redux";
 import { setUserName } from "../../store/reducers/userSlice";
@@ -9,11 +9,10 @@ import { setUserName } from "../../store/reducers/userSlice";
 const RegPage: FC = () => {
     const [pass, setPass] = useState<string>("");
     const [email, setEmail] = useState<string>("");
-    const [error, setError] = useState<string>("");
+    const [error, setError] = useState<string | null>(null);
     const [name, setName] = useState<string>("");
     const [regUser] = useRegisterMutation();
     const dispatch = useDispatch();
-    const navigate = useNavigate();
 
     const dataReset = () => {
         setPass("");
@@ -21,22 +20,20 @@ const RegPage: FC = () => {
     };
 
     const regHandle = async (e: FormEvent<HTMLFormElement>) => {
-        e.preventDefault(); //протестировать без preventDefault
+        e.preventDefault();
+        setError(null);
+
         if (pass.length >= 8) {
-            try {
-                await regUser({
-                    email,
-                    pass,
-                    name,
-                }).unwrap();
-                dispatch(setUserName(name));
-            } catch (err) {
-                console.log(error);
-            } finally {
-                navigate("/feed");
-            }
+            await regUser({
+                email,
+                pass,
+                name,
+            })
+                .unwrap()
+                .catch((error) => setError(error.message))
+                .finally(() => dispatch(setUserName(name)));
         } else {
-            setError("The minimum number of characters in a password - 8");
+            setError("Password must be at least 8 characters long.");
         }
     };
 
@@ -44,7 +41,7 @@ const RegPage: FC = () => {
         <div className={styles.container}>
             <div className={styles.auth}>
                 <h1>Register</h1>
-                {error && <p>{error}</p>}
+                {!!error && <p className={styles.auth_error}>{error}</p>}
                 <AuthForm
                     pass={pass}
                     setPass={setPass}
@@ -52,6 +49,7 @@ const RegPage: FC = () => {
                     setEmail={setEmail}
                     onSubmit={regHandle}
                     setName={setName}
+                    name={name}
                 />
                 <div className={styles.toggle_auth_type}>
                     Already have an account?{" "}

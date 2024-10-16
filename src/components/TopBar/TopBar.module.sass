@@ -9,9 +9,9 @@
 .left_side
     font-size: 30px
     display: flex
-    width: fit-content
+    width: max-content
     align-items: center
-    @media screen and (width <= 640px)
+    @media screen and (width <= 840px)
         font-size: 1em
 
     img
@@ -61,8 +61,11 @@
         font-size: 30px
         align-items: center
         cursor: pointer
-        @media screen and (width <= 640px)
+        @media screen and (width <= 840px)
             font-size: 1em
+
+        @media screen and (width <= 1450px)
+            margin-right: 50px
 
         &_dropdown
             font-size: 15px

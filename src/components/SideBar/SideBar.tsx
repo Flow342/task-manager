@@ -1,5 +1,5 @@
 import styles from "./SideBar.module.sass";
-import { FC, useMemo, useState } from "react";
+import { FC, useEffect, useMemo, useState } from "react";
 import { AiOutlineMenu, AiOutlineSetting } from "react-icons/ai";
 import SideBarItem from "../../UI/SideBarItem/SideBarItem";
 import { useWindowSize } from "react-use";
@@ -11,18 +11,17 @@ const SideBar: FC = () => {
     const windowSizeX = useWindowSize().width;
     const navigate = useNavigate();
 
-    if (!isWide) {
-        rootStyles.push(styles.side_bar_active);
-    }
-
-    useMemo(() => {
+    useEffect(() => {
         if (windowSizeX > 1600) {
             setIsWide(true);
         } else {
             setIsWide(false);
         }
-    }, [windowSizeX]);
+    }, []);
 
+    if (!isWide) {
+        rootStyles.push(styles.side_bar_active);
+    }
     return (
         <nav className={rootStyles.join(" ")}>
             <SideBarItem

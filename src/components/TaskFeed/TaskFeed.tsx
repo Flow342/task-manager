@@ -65,7 +65,7 @@ const TaskFeed: FC = () => {
         } catch (err) {
             console.log(err);
         }
-    }, [user]);
+    }, [user.userProjectId]);
 
     return (
         <div className={styles.wrapper}>
