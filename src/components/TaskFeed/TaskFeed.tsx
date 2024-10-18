@@ -12,7 +12,7 @@ import { RootState } from "../../store/store";
 import Loader from "../../UI/Loader/Loader";
 import { TTask, TUser } from "../../interfaces/interfaces";
 import TasksColumn from "../TasksColumn/TasksColumn";
-import { DndContext, DragEndEvent } from "@dnd-kit/core"; // Импортируем компоненты DnD Kit
+import { DndContext, DragEndEvent } from "@dnd-kit/core";
 import { updateTaskStatusOnServer } from "../../utils/updateTaskStatus";
 
 const TaskFeed: FC = () => {
@@ -80,9 +80,7 @@ const TaskFeed: FC = () => {
             | "done"
             | "Todo"
             | "in progress"
-            | "in review"
-            | "testing"
-            | "released";
+            | "in review";
 
         const currentTask = tasks.find((task) => task.id === String(active.id));
 
@@ -127,7 +125,6 @@ const TaskFeed: FC = () => {
                     <Loader />
                 </div>
             ) : (
-                // Оборачиваем TaskFeed в DndContext
                 <DndContext onDragEnd={handleDragEnd}>
                     <div className={styles.task_feed} ref={feedRef}>
                         {statuses.map((item, index) => (

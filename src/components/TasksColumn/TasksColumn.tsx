@@ -1,5 +1,5 @@
 import { FC, useState } from "react";
-import { useDroppable } from "@dnd-kit/core"; // Импортируем useDroppable
+import { useDroppable } from "@dnd-kit/core";
 import styles from "./TasksColumn.module.sass";
 import { TTask, TUser } from "../../interfaces/interfaces";
 import Task from "../../UI/Task/Task";
@@ -13,21 +13,18 @@ type props = {
 };
 
 const TasksColumn: FC<props> = ({ status, tasks, users }) => {
-    // Фильтруем задачи по статусу
     const filtredTasks = tasks.filter(
         (task) => task.status.toLowerCase() === status.toLowerCase()
     );
     const folders = new Set(tasks.map((task) => task.folder));
     const [createModal, setCreateModal] = useState<boolean>(false);
 
-    // Хук DnD Kit для зоны, куда можно перетаскивать
     const { setNodeRef, isOver } = useDroppable({
-        id: status, // Уникальный id для каждой колонки (статуса)
+        id: status,
     });
 
-    // Стили для зоны при перетаскивании
     const style = {
-        border: isOver ? "1px solid #e0e0e0" : undefined, // Меняем фон, если задача перетаскивается над колонкой
+        border: isOver ? "1px solid #e0e0e0" : undefined,
     };
 
     return (
